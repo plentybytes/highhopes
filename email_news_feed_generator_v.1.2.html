@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+
+        function copyToClip(str) {
+            function listener(e) {
+                e.clipboardData.setData("text/html", str);
+                e.preventDefault();
+            }
+
+            document.addEventListener("copy", listener);
+            document.execCommand("copy");
+            document.removeEventListener("copy", listener);
+        };
+
+        function copy() {
+            var copyBoxElement = document.getElementById('report');
+            copyBoxElement.focus();
+            document.execCommand('select');
+            document.execCommand("copy");
+            alert("Text has been copied")
+            /*/!* Get the text field *!/
+            var copyText = document.getElementsByName("report").innerHTML;
+
+            copyText.sele();
+            /!*!/!* Select the text field *!/
+
+            copyText.setSelectionRange(0, 99999); /!* For mobile devices *!/
+            *!/
+            window.clipboardData.setData("text", copyText);
+
+            /!* Copy the text inside the text field *!/
+            //document.execCommand("copy");
+
+            /!* Alert the copied text *!/
+            alert("Copied!");*/
+        }
+
+        var proxy = 'https://cors.bridged.cc/';
+        $(document).ready(function () {
+
+            var options = {year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'};
+            var today = new Date();
+            $("#news_date").html(today.toLocaleDateString("en-IN", options));
+
+            $("#fetch").click(function () {
+                if ($("#Link").val()) {
+                    var link = $("#Link").val().trim();
+                    $.get({
+                            url: proxy + link,
+                            type: "GET",
+                            contentType: "application/json",
+                            // set the request header authorization to the bearer token that is generated
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest"
+                            }
+                        }, function (data) {
+                            var html = $.parseHTML(data);
+                            console.dir(html);
+                            var title = $(html).filter('meta[property="og:title"]').attr("content");
+                            var title1 = $(html).filter('title').text();
+                            var media = $(html).filter('meta[property="og:site_name"]').attr("content");
+                            var media1 = $(html).filter('meta[property="al:ipad:app_name"]').attr("content");
+
+                            var description = $(html).filter('meta[name=description]').attr("content");
+                            var date = $(html).filter('meta[name=publish-date]').attr("content");
+                            var date1 = $(html).filter('meta[property="article:published_time"]').attr("content");
+                            var date2 = $(html).filter('itemProp[property="datePublished"]').attr("content");
+                            var date3 = $(html).filter('meta[itemprop=datePublished]').attr("content");
+
+                            var date10;
+                            var description1 = '';
+                            if (!date && !date1 && !date2 && !date3) {
+                                var template = document.createElement('template');//you could elements other than <template>
+                                template.innerHTML = data;
+                                var jsonld = template.content.querySelectorAll('script[type="application/ld+json"]');
+                                if (jsonld) {
+                                    jsonld.forEach(j => {
+                                        let k = JSON.parse(j.innerText.replace(/[\u0000-\u0019]+/g, ""));
+                                        if (Array.isArray(k)) {
+                                            k.map(j1 => {
+                                                if (j1.datePublished) {
+                                                    date10 = j1.datePublished;
+                                                    description1 = j1.description;
+                                                }
+                                            })
+                                        } else {
+                                            if (k.datePublished) {
+                                                date10 = k.datePublished;
+                                                description1 = k.description;
+                                            }
+                                        }
+                                    })
+                                }
+                            }
+
+                            if (description1) {
+                                var div = document.createElement('div');
+                                div.innerHTML = description1;
+                                description1 = div.firstChild.nodeValue.replace(/&quot;/g, '\"');
+                            } else {
+                                description1 = "";
+                            }
+
+                            title = title || title1;
+                            date = date || date1 || date2 || date3 || date10;
+                            description = description.length > description1.length ? description : description1;
+                            media = media || media1;
+
+                            console.log(title);
+                            console.log(media);
+                            console.log(description);
+                            console.log(date);
+
+                            var options = {year: 'numeric', month: 'long', day: 'numeric'};
+                            var today = new Date(date);
+
+                            $("#Title").val(title);
+                            $("#Description").val(description);
+                            $("#Media").val(media);
+                            $("#Date").val('Online, ' + today.toLocaleDateString("en-US", options));
+                        }
+                    ).fail(function () {
+                        $("#Title").val("");
+                        $("#Description").val("");
+                        $("#Media").val("");
+                        $("#Date").val('');
+                        alert("Unable to fetch data from this website. Clearing all the data. Please fill be yourself.");
+                    });
+                }
+            });
+            $("#append").click(function () {
+                var parent = "#industry_news_div";
+                if ($("#Type").val() === 'company_news') {
+                    parent = "#company_news_div"
+                }
+                $(parent)
+                    .append(" <div style='padding: 10px; border-bottom: solid 1pt black; text-align: left;'>" +
+                        "<div style='padding: 5px 0; font-size: 11pt;font-weight: bold;'>" + $("#Media").val() + "</div>" +
+                        "<div style='padding: 5px 0; font-size: 10pt;font-weight: bold;'><a target='_blank' href=" + $("#Link").val() + ">" + $("#Title").val() + "</a></div>" +
+                        "<div style='padding: 5px 0; font-size: 10pt;'>" + $("#Date").val() + "</div>" +
+                        "<div style='padding: 5px 0; font-size: 10pt;'>" + $("#Description").val() + "</div> </div>");
+            });
+        });
+    </script>
+</head>
+<body style="text-align: center">
+<div style="background: #dbdbdb">
+    <div name="frm1" class="container-fluid" style="max-width: 1000px; text-align: left;">
+        <br/>
+        <div class="row">
+            <div class="col-2">
+                <label for="Link">Link</label>
+            </div>
+            <div class="col">
+                <textarea style="width: 100%" id="Link" name="Link"> </textarea>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-2">
+                <label for="Media">Media:</label>
+            </div>
+            <div class="col">
+                <input style="width: 100%" id="Media" name="Media">
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-2">
+                <label for="Title">Title:</label>
+            </div>
+            <div class="col">
+                <textarea style="width: 100%" id="Title" name="Title"></textarea>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-2">
+                <label for="Date">Date:</label>
+            </div>
+            <div class="col">
+                <input style="width: 100%" type="text" id="Date" name="Date">
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-2">
+                <label for="Description">Description:</label>
+            </div>
+            <div class="col">
+                <textarea style="width: 100%" id="Description" name="Description"> </textarea>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-2">
+                <label for="Type">Type:</label>
+            </div>
+            <div class="col">
+                <select id="Type" name="Type">
+                    <option value="industry_news">Industry News</option>
+                    <option value="company_news">Company News</option>
+                </select>
+            </div>
+        </div>
+        <br/>
+
+        <div style="text-align: right;">
+            <button id="fetch">Fetch</button>
+            <button id="append">Append</button>
+            <br/>
+            <br/>
+
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+
+<div name="frm2" class="container-fluid" style="max-width: 600px; text-align: right; margin: auto; padding: 0 0 10px 0;">
+    <button onclick="copyToClip(document.getElementById('report').innerHTML)">Copy Report</button>
+</div>
+<div name="report" id="report" >
+<div style='border: solid; font-family: "Arial",sans-serif; width:600px; margin: auto;'>
+    <div>
+        <div style='font-size: 11.0pt;
+                    font-family: "Arial",sans-serif;
+                    text-align: center;
+                    font-weight: bold;
+                    color: white;
+                    background: black;
+                    padding: 10px;'>
+            <div>NEWS YOU CAN USE</div>
+            <div id="news_date">Thursday, 01st July 2021</div>
+        </div>
+        <div style="background: #F1C232;
+                    text-align: center;
+                    font-size: 11pt;
+                    font-weight: bold;
+                    border-bottom:solid 2pt black;
+                    padding: 10px;">COMPANY NEWS
+        </div>
+        <div id="company_news_content">
+            <div id="company_news_div">
+            </div>
+        </div>
+        <div style="background: #F1C232;
+                    text-align: center;
+                    font-size: 11pt;
+                    font-weight: bold;
+                    border-bottom:solid 2pt black;
+                    padding: 10px;">INDUSTRY NEWS
+        </div>
+        <div id="industry_news_content">
+            <div id="industry_news_div">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+
+
+</body>
+</html>
+
