@@ -53,7 +53,7 @@
             $("#heading1").css("background", "#F1C232");
 
             $('#Brand').on('change', function() {
-                $('#logo').attr('src', 'https://plentybytes.github.io/news-parser/' + this.value+'.png');
+                $('#logo').attr('src', './assets/' + this.value+'.png');
                 if(this.value === 'CareerLabs') {
                     $("#heading0").css("background", "#32358f");
                     $("#heading").css("background", "#b3c5e7");
@@ -268,7 +268,7 @@
 <div style='border: solid; font-family: "Arial",sans-serif; width:600px; margin: auto;'>
     <div>
         <div style="text-align: center;">
-            <img id="logo" name="logo" style="height: 60px; margin: 10px;" src="https://plentybytes.github.io/news-parser/hesa.png"/>
+            <img id="logo" name="logo" style="height: 60px; margin: 10px;" src="./assets/hesa.png"/>
         </div>
         <div id="heading0" name="heading0"  style='font-size: 11.0pt;
                     font-family: "Arial",sans-serif;
