@@ -45,7 +45,7 @@
         }
 
         //var proxy = 'https://cors.bridged.cc/';
-        var proxy = 'http://0.0.0.0:8080/';
+        var proxy = 'https://highhopes.herokuapp.com/';
         $(document).ready(function () {
 
             $("#heading0").css("background", "black");
@@ -53,7 +53,7 @@
             $("#heading1").css("background", "#F1C232");
 
             $('#Brand').on('change', function() {
-                $('#logo').attr('src', 'https://plentybytes.github.io/news_parser/assets/' + this.value+'.png');
+                $('#logo').attr('src', 'https://plentybytes.github.io/highhopes/assets/' + this.value+'.png');
                 if(this.value === 'CareerLabs') {
                     $("#heading0").css("background", "#32358f");
                     $("#heading").css("background", "#b3c5e7");
@@ -251,6 +251,7 @@
         </div>
         <div class="col-3">
             <select id="Brand" name="Brand">
+                <option value="select">Select</option>
                 <option value="hesa">Hesa</option>
                 <option value="ft">FT</option>
                 <option value="CareerLabs">CareerLabs</option>
@@ -268,7 +269,7 @@
 <div style='border: solid; font-family: "Arial",sans-serif; width:600px; margin: auto;'>
     <div>
         <div style="text-align: center;">
-            <img id="logo" name="logo" style="height: 60px; margin: 10px;" 'https://plentybytes.github.io/news_parser/assets/hesa.png');
+            <img id="logo" name="logo" style="height: 60px; margin: 10px;">
         </div>
         <div id="heading0" name="heading0"  style='font-size: 11.0pt;
                     font-family: "Arial",sans-serif;
