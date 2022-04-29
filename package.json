@@ -2,7 +2,7 @@
   "name": "news_parser",
   "version": "1.0.0",
   "description": "",
-  "main": "news_parser.js",
+  "main": "cors.js",
   "dependencies": {
     "cors-anywhere": "^0.4.4"
   },
