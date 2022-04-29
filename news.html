@@ -52,19 +52,19 @@
             $("#heading").css("background", "#F1C232");
             $("#heading1").css("background", "#F1C232");
 
-            $('#Brand').on('change', function() {
-                $('#logo').attr('src', 'https://plentybytes.github.io/highhopes/assets/' + this.value+'.png');
-                if(this.value === 'CareerLabs') {
+            $('#Brand').on('change', function () {
+                $('#logo').attr('src', 'https://plentybytes.github.io/highhopes/assets/' + this.value + '.png');
+                if (this.value === 'CareerLabs') {
                     $("#heading0").css("background", "#32358f");
                     $("#heading").css("background", "#b3c5e7");
-                    $("#heading1").css("background", "#b3c5e7");                    
+                    $("#heading1").css("background", "#b3c5e7");
                 } else {
                     $("#heading0").css("background", "black");
                     $("#heading").css("background", "#F1C232");
                     $("#heading1").css("background", "#F1C232");
-                }               
+                }
             });
-        
+
             var options = {year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'};
             var today = new Date();
             $("#news_date").html(today.toLocaleDateString("en-US", options));
@@ -172,59 +172,71 @@
 </head>
 <body style="text-align: center">
 <div style="background: #dbdbdb">
-    <div name="frm1" class="container-fluid" style="max-width: 1000px; text-align: left;">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #0a2b3d; padding: 0 0 0 30px;">
+        <a class="navbar-brand" href="#">
+            <img id="highhopes_logo" name="highhopes_logo" style="height: 60px; margin: 10px;"
+                 src="./assets/highhopes.png">
+        </a>
+    </nav>
+    <div name="frm1" class="container-fluid" style="max-width: 1000px; text-align: left; padding: 30px">
+
         <br/>
         <div class="row">
-            <div class="col-2">
+            <div class="form-group">
                 <label for="Link">Link</label>
+                <textarea class="form-control" id="Link"
+                          placeholder="Paste news link here"></textarea>
+                <small id="LinkHelp" class="form-text text-muted">
+                    App will try to fetch the data from this link.</small>
             </div>
-            <div class="col">
-                <textarea style="width: 100%" id="Link" name="Link"> </textarea>
+        </div>
+        <div class="row">
+            <div style="text-align: right;">
+                <button id="fetch" class="btn btn-primary">Fetch</button>
             </div>
         </div>
         <br/>
         <div class="row">
-            <div class="col-2">
-                <label for="Media">Media:</label>
-            </div>
-            <div class="col">
-                <input style="width: 100%" id="Media" name="Media">
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            <div class="col-2">
-                <label for="Title">Title:</label>
-            </div>
-            <div class="col">
-                <textarea style="width: 100%" id="Title" name="Title"></textarea>
+            <div class="form-group">
+                <label for="Media">Media</label>
+                <input class="form-control" id="Media" name="Media">
+                <small id="LinkHelp" class="form-text text-muted">
+                    If not loaded, correct it before append.</small>
             </div>
         </div>
         <br/>
         <div class="row">
-            <div class="col-2">
-                <label for="Date">Date:</label>
-            </div>
-            <div class="col">
-                <input style="width: 100%" type="text" id="Date" name="Date">
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            <div class="col-2">
-                <label for="Description">Description:</label>
-            </div>
-            <div class="col">
-                <textarea style="width: 100%" id="Description" name="Description"> </textarea>
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <textarea class="form-control" id="Title" name="Title"></textarea>
+                <small id="LinkHelp" class="form-text text-muted">
+                    If not loaded, correct it before append.</small>
             </div>
         </div>
         <br/>
         <div class="row">
-            <div class="col-2">
-                <label for="Type">Type:</label>
+            <div class="form-group">
+                <label for="Date">Date</label>
+                <input class="form-control" type="text" id="Date"
+                       name="Date">
+                <small id="LinkHelp" class="form-text text-muted">
+                    If not loaded, correct it before append. Ex formatting: Online, August 3, 2021</small>
             </div>
-            <div class="col">
-                <select id="Type" name="Type">
+        </div>
+        <br/>
+        <div class="row">
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <textarea class="form-control" id="Description" name="Description"> </textarea>
+                <small id="LinkHelp" class="form-text text-muted">
+                    If not loaded, correct it before append.</small>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="form-group">
+                <label for="Type">Which section to append this news?</label>
+                <select class="form-control" id="Type" name="Type">
                     <option value="industry_news">Industry News</option>
                     <option value="company_news">Company News</option>
                 </select>
@@ -233,11 +245,8 @@
         <br/>
 
         <div style="text-align: right;">
-            <button id="fetch">Fetch</button>
-            <button id="append">Append</button>
+            <button id="append" class="btn btn-success">Append</button>
             <br/>
-            <br/>
-
         </div>
     </div>
 </div>
@@ -246,71 +255,94 @@
 
 <div name="frm2" class="container-fluid" style="max-width: 600px; margin: auto; padding: 0 0 10px 0;">
     <div class="row">
-        <div class="col-2">
-            <label for="Type">Brand:</label>
-        </div>
-        <div class="col-3">
-            <select id="Brand" name="Brand">
-                <option value="select">Select</option>
-                <option value="hesa">Hesa</option>
-                <option value="ft">FT</option>
-                <option value="CareerLabs">CareerLabs</option>
-            </select>
+        <div class="col-5">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Brand</span>
+                <select class="form-control" id="Brand" name="Brand">
+                    <option value="select">Select</option>
+                    <option value="hesa">Hesa</option>
+                    <option value="ft">FT</option>
+                    <option value="CareerLabs">CareerLabs</option>
+                </select>
+            </div>
         </div>
 
         <div class="col-7" style="text-align: right;">
-            <button onclick="copyToClip(document.getElementById('report').innerHTML)">Copy Report</button>
+            <button class="btn btn-info" onclick="copyToClip(document.getElementById('report').innerHTML)">Copy Report
+            </button>
         </div>
     </div>
 
 
 </div>
-<div name="report" id="report" >
-<div style='border: solid; font-family: "Arial",sans-serif; width:600px; margin: auto;'>
-    <div>
-        <div style="text-align: center;">
-            <img id="logo" name="logo" style="height: 60px; margin: 10px;">
-        </div>
-        <div id="heading0" name="heading0"  style='font-size: 11.0pt;
+<div name="report" id="report">
+    <div style='border: solid; font-family: "Arial",sans-serif; width:600px; margin: auto;'>
+        <div>
+            <div style="text-align: center;">
+                <img id="logo" name="logo" style="height: 60px; margin: 10px;">
+            </div>
+            <div id="heading0" name="heading0" style='font-size: 11.0pt;
                     font-family: "Arial",sans-serif;
                     text-align: center;
                     font-weight: bold;
                     color: white;
                     padding: 10px;'>
-            <div>NEWS YOU CAN USE</div>
-            <div id="news_date">Thursday, 01st July 2021</div>
-        </div>
-        <div id="heading" name="heading"
-                    style="
+                <div>NEWS YOU CAN USE</div>
+                <div id="news_date">Thursday, 01st July 2021</div>
+            </div>
+            <div id="heading" name="heading"
+                 style="
                     text-align: center;
                     font-size: 11pt;
                     font-weight: bold;
                     border-bottom:solid 2pt black;
                     padding: 10px;">COMPANY NEWS
-        </div>
-        <div id="company_news_content">
-            <div id="company_news_div">
             </div>
-        </div>
-        <div id="heading1" name="heading" style="
+            <div id="company_news_content">
+                <div id="company_news_div">
+                </div>
+            </div>
+            <div id="heading1" name="heading" style="
                     text-align: center;
                     font-size: 11pt;
                     font-weight: bold;
                     border-bottom:solid 2pt black;
                     padding: 10px;">INDUSTRY NEWS
-        </div>
-        <div id="industry_news_content">
-            <div id="industry_news_div">
+            </div>
+            <div id="industry_news_content">
+                <div id="industry_news_div">
+                </div>
             </div>
         </div>
+
     </div>
-</div>
-</div>
-<br/>
-<br/>
-<br/>
+    <br/>
+    <br/>
+    <br/>
+    <footer>
+        <div style="padding: 0 30px; text-align: left;">
+            <p style="float: right; text-align: left;"> &copy; 2022 Highhopes, Inc. All rights reserved.</p>
+            <ul class="list-unstyled d-flex">
+                <li class="ms-3"><a class="link-dark" href="#">
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#twitter"/>
+                    </svg>
+                </a></li>
+                <li class="ms-3"><a class="link-dark" href="#">
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#instagram"/>
+                    </svg>
+                </a></li>
+                <li class="ms-3"><a class="link-dark" href="#">
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#facebook"/>
+                    </svg>
+                </a></li>
+            </ul>
+        </div>
 
-
+    </footer>
+</div>
 </body>
 </html>
 
