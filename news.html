@@ -182,17 +182,13 @@
 
         <br/>
         <div class="row">
-            <div class="form-group">
-                <label for="Link">Link</label>
-                <textarea class="form-control" id="Link"
-                          placeholder="Paste news link here"></textarea>
-                <small id="LinkHelp" class="form-text text-muted">
-                    App will try to fetch the data from this link.</small>
-            </div>
-        </div>
-        <div class="row">
-            <div style="text-align: right;">
-                <button id="fetch" class="btn btn-primary">Fetch</button>
+            <div class="input-group">
+                <span class="input-group-text" id="Link-addon1">Link</span>
+                <input class="form-control" id="Link"
+                          placeholder="Paste news link here"></input>
+                <div class="input-group-append" style="margin: 0 0 0 20px;">
+                    <button id="fetch" class="btn btn-primary">Fetch</button>
+                </div>
             </div>
         </div>
         <br/>
@@ -219,7 +215,7 @@
                 <label for="Date">Date</label>
                 <input class="form-control" type="text" id="Date"
                        name="Date">
-                <small id="LinkHelp" class="form-text text-muted">
+                <small id="DateHelp" class="form-text text-muted">
                     If not loaded, correct it before append. Ex formatting: Online, August 3, 2021</small>
             </div>
         </div>
@@ -228,24 +224,27 @@
             <div class="form-group">
                 <label for="Description">Description</label>
                 <textarea class="form-control" id="Description" name="Description"> </textarea>
-                <small id="LinkHelp" class="form-text text-muted">
+                <small id="DescriptionHelp" class="form-text text-muted">
                     If not loaded, correct it before append.</small>
             </div>
         </div>
         <br/>
         <div class="row">
-            <div class="form-group">
-                <label for="Type">Which section to append this news?</label>
+            <div class="input-group">
+                <span class="input-group-text" id="Type-addon1">Which section to append this news?</span>
                 <select class="form-control" id="Type" name="Type">
                     <option value="industry_news">Industry News</option>
                     <option value="company_news">Company News</option>
                 </select>
+                <div class="input-group-append" style="margin: 0 0 0 20px;">
+                    <button id="append" class="btn btn-success">Append</button>
+                </div>
             </div>
         </div>
         <br/>
 
         <div style="text-align: right;">
-            <button id="append" class="btn btn-success">Append</button>
+
             <br/>
         </div>
     </div>
